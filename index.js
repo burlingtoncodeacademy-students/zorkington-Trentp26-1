@@ -21,12 +21,19 @@ class Room {
       (this.lock = lock || false)
   }
   // function that changes your room if you are able to 
-  changeRoom(newRoom) {
-      if (validRoomChange[Room].includes(newRoom)) {
-        currentRoom = newRoom
-        console.log(describe());
-      }
+  move(room){
+    if(validRoomChange[Room].includes(room)){
+      currentRoom = room
+    } else {
+      console.log(`You cannot enter room yet! \n you might need somthing`)
+    }
   }
+  // changeRoom(newRoom) {
+  //     if (validRoomChange[Room].includes(newRoom)) {
+  //       currentRoom = newRoom
+  //       console.log(describe());
+  //     }
+  // }
   // function that describes your room
   describe(){
     console.log(`You are in the ${this.roomName} this room ${this. description}`)
@@ -71,9 +78,9 @@ class Item {
   }
 }
 
-let currentRoom = street
+
 let playerInventory = new player (
-  `street`
+  `street`,
   `empty pocket`
 )
 
@@ -85,6 +92,8 @@ There is a door here.`,
 `door and doormat`,
 `unlocked`
 );
+
+let currentRoom = "street"
 
 let mudRoom = new Room(
 `mudRoom`, 
@@ -186,7 +195,7 @@ async function start() {
 
   let action = inputArray[0]
 
-  let target = input.slice(1).join(" ")
+  let target = inputArray.slice(1).join(" ")
 if(action === `use`){
   console.log(lookUpTable[target].use())
 } else if (action == `take`)
@@ -197,8 +206,10 @@ if(lookUpTable[target] instanceof Item){
   console.log(`thats not an item to take! `)
 } else if (action === `I`){
   console.log(describePlayer())
-} else if (action === `open door` && this.lock === `unlocked`){
-console.log(changeRoom)
+} else if (action === `move`){
+  if(this.lock === unlocked)
+ return changeRoom()
+
 } else if (action === ` open door` && this.lock === `locked`) {
 console.log(`Door is locked you cannot go into it`)
 } else {
@@ -211,7 +222,7 @@ console.log(`Door is locked you cannot go into it`)
 
 
 function incomingInput(words) {
-  scrubbedInput = words.toLowerCase().trim().split(" ");
+  fixedInput = words.toLowerCase().trim().split(" ");
   return fixedInput;
 }
 
